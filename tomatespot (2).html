@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Tómate Cocktail Spot — Villa María</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg0:#0a0706;
+    --bg1:#150a09;
+    --ember:#7A1F1C;
+    --ember-bright:#B33A2E;
+    --gold:#C9A24B;
+    --cream:#F4EDE1;
+    --cream-dim:rgba(244,237,225,0.62);
+    --hair:rgba(244,237,225,0.16);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg0);
+    color:var(--cream);
+    font-family:'Cormorant Garamond',serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:'Playfair Display',serif;font-weight:800;text-transform:uppercase;}
+  .mono{font-family:'Space Mono',monospace;}
+  a{color:inherit;text-decoration:none;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- smoke / ember texture, used on every dark section ---------- */
+  .smoke{
+    background-color:var(--bg0);
+    background-image:
+      radial-gradient(ellipse 60% 45% at 20% 15%, rgba(122,31,28,0.55), transparent 60%),
+      radial-gradient(ellipse 55% 50% at 85% 25%, rgba(122,31,28,0.4), transparent 65%),
+      radial-gradient(ellipse 70% 60% at 50% 100%, rgba(122,31,28,0.5), transparent 60%),
+      radial-gradient(ellipse 40% 40% at 90% 90%, rgba(179,58,46,0.25), transparent 60%),
+      linear-gradient(180deg, var(--bg1), var(--bg0));
+    position:relative;
+  }
+  .grain{
+    position:absolute;inset:0;
+    opacity:0.35;
+    mix-blend-mode:overlay;
+    pointer-events:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+  }
+  .vignette{
+    position:absolute;inset:0;pointer-events:none;
+    box-shadow:inset 0 0 160px 60px rgba(0,0,0,0.75);
+  }
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(10,7,6,0.9);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--hair);
+  }
+  .topbar-inner{
+    max-width:760px;margin:0 auto;padding:16px 24px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .brand-mark span{
+    font-family:'Playfair Display',serif;font-weight:800;color:var(--cream);
+    font-size:16px;letter-spacing:3px;
+  }
+  .topbar nav{display:flex;gap:26px;}
+  .topbar nav a{
+    font-family:'Space Mono',monospace;font-size:11px;
+    text-transform:uppercase;letter-spacing:2px;color:var(--cream-dim);
+  }
+  .topbar nav a:hover{color:var(--gold);}
+  @media (max-width:600px){ .topbar nav{display:none;} }
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding:110px 24px 100px;
+    text-align:center;
+  }
+  .hero-badge{
+    position:relative;z-index:2;display:inline-block;
+    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;
+    color:var(--gold);border:1px solid rgba(201,162,75,0.5);border-radius:999px;
+    padding:7px 18px;margin-bottom:36px;
+  }
+  .echo-title{position:relative;z-index:2;}
+  .echo-title h1{
+    position:relative;
+    font-size:clamp(46px,10vw,84px);
+    letter-spacing:10px;
+    color:var(--cream);
+    line-height:1;
+  }
+  .echo-title h1::before{
+    content:attr(data-text);
+    position:absolute;left:50%;top:52%;
+    transform:translate(-50%,-50%) scale(1.14);
+    color:transparent;
+    -webkit-text-stroke:1px rgba(244,237,225,0.14);
+    z-index:-1;
+    white-space:nowrap;
+  }
+  .hero .sub{
+    position:relative;z-index:2;margin-top:26px;
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;
+    color:var(--cream-dim);letter-spacing:0.5px;
+  }
+  .hero .loc{
+    position:relative;z-index:2;margin-top:8px;
+    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;
+    color:var(--cream-dim);opacity:0.7;text-transform:uppercase;
+  }
+  .hero-rule{
+    position:relative;z-index:2;
+    width:60px;height:1px;background:var(--gold);margin:38px auto 0;
+  }
+  .stamp-row{
+    position:relative;z-index:2;
+    display:flex;flex-wrap:wrap;gap:12px;justify-content:center;
+    margin-top:34px;
+  }
+  .stamp{
+    font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--cream-dim);
+    border:1px solid var(--hair);border-radius:999px;
+    padding:8px 16px;
+  }
+
+  /* ---------- links section ---------- */
+  .links{padding:70px 24px 30px;position:relative;}
+  .section-eyebrow{
+    text-align:center;
+    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;
+    text-transform:uppercase;color:var(--gold);margin-bottom:10px;
+  }
+  .links h2{position:relative;z-index:2;font-size:30px;letter-spacing:4px;text-align:center;margin-bottom:44px;}
+
+  .link-grid{position:relative;z-index:2;display:flex;flex-direction:column;gap:14px;}
+  .link-btn{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    background:rgba(244,237,225,0.03);
+    border:1px solid var(--hair);
+    border-radius:2px;
+    padding:20px 26px;
+    transition:border-color .2s ease, background .2s ease;
+  }
+  .link-btn:hover{border-color:var(--gold);background:rgba(201,162,75,0.05);}
+  .link-btn .lb-left{display:flex;align-items:center;gap:18px;}
+  .link-btn .lb-icon{
+    width:38px;height:38px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    border:1px solid var(--gold);color:var(--gold);
+  }
+  .link-btn .lb-icon svg{width:18px;height:18px;}
+  .link-btn .lb-text b{
+    display:block;font-family:'Playfair Display',serif;font-weight:700;font-size:16px;
+    letter-spacing:1px;text-transform:uppercase;
+  }
+  .link-btn .lb-text span{
+    display:block;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14.5px;
+    color:var(--cream-dim);margin-top:3px;
+  }
+  .link-btn .lb-arrow{font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);opacity:0.6;}
+  .link-btn:hover .lb-arrow{opacity:1;}
+
+  /* ---------- divider ---------- */
+  .ornament{
+    position:relative;z-index:2;
+    display:flex;align-items:center;justify-content:center;gap:14px;
+    margin:70px auto 0;width:100%;max-width:400px;
+  }
+  .ornament .line{flex:1;height:1px;background:var(--hair);}
+  .ornament .dot{width:5px;height:5px;border-radius:50%;background:var(--gold);}
+
+  /* ---------- carta ---------- */
+  .carta{padding:90px 24px 100px;position:relative;}
+  .carta-head{position:relative;z-index:2;text-align:center;margin-bottom:64px;}
+  .carta-head h2{
+    font-size:clamp(40px,9vw,64px);letter-spacing:8px;color:var(--cream);
+    position:relative;display:inline-block;
+  }
+  .carta-head h2::before{
+    content:attr(data-text);
+    position:absolute;left:50%;top:52%;transform:translate(-50%,-50%) scale(1.1);
+    color:transparent;-webkit-text-stroke:1px rgba(244,237,225,0.12);z-index:-1;white-space:nowrap;
+  }
+  .carta-head p{
+    margin-top:14px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;
+    color:var(--cream-dim);text-transform:uppercase;
+  }
+
+  .menu-block{position:relative;z-index:2;max-width:560px;margin:0 auto 70px;text-align:center;}
+  .menu-block h3{
+    font-size:22px;letter-spacing:3px;color:var(--gold);margin-bottom:36px;
+    padding-bottom:14px;border-bottom:1px solid var(--hair);
+  }
+  .menu-item{margin-bottom:30px;}
+  .menu-item:last-child{margin-bottom:0;}
+  .menu-item .mi-name{
+    font-family:'Playfair Display',serif;font-weight:700;font-size:17px;
+    letter-spacing:2px;text-transform:uppercase;color:var(--cream);
+  }
+  .menu-item .mi-desc{
+    display:block;margin-top:6px;font-family:'Cormorant Garamond',serif;font-style:italic;
+    font-size:15px;color:var(--cream-dim);max-width:420px;margin-left:auto;margin-right:auto;
+  }
+  .menu-item .mi-price{
+    display:block;margin-top:10px;font-family:'Space Mono',monospace;font-size:14px;
+    letter-spacing:1px;color:var(--gold);
+  }
+
+  .menu-note{
+    position:relative;z-index:2;text-align:center;margin-top:20px;
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--cream-dim);
+  }
+
+  /* ---------- contacto ---------- */
+  .contact{padding:90px 24px;text-align:center;position:relative;}
+  .contact h2{position:relative;z-index:2;font-size:36px;letter-spacing:5px;margin-bottom:16px;}
+  .contact p{
+    position:relative;z-index:2;font-family:'Cormorant Garamond',serif;font-style:italic;
+    font-size:17px;color:var(--cream-dim);max-width:440px;margin:0 auto 36px;
+  }
+  .wa-cta{
+    position:relative;z-index:2;
+    display:inline-flex;align-items:center;gap:12px;
+    background:var(--ember);color:var(--cream);
+    padding:18px 36px;border-radius:999px;border:1px solid var(--gold);
+    font-family:'Space Mono',monospace;font-weight:700;font-size:13px;
+    letter-spacing:2px;text-transform:uppercase;
+    transition:background .2s ease, transform .15s ease;
+  }
+  .wa-cta:hover{background:var(--ember-bright);transform:translateY(-2px);}
+  .wa-cta svg{width:20px;height:20px;}
+  .contact .subinfo{
+    position:relative;z-index:2;margin-top:26px;
+    font-family:'Space Mono',monospace;font-size:12px;letter-spacing:1.5px;color:var(--cream-dim);
+  }
+
+  /* ---------- footer / logo lockup ---------- */
+  footer{
+    padding:60px 24px 46px;text-align:center;position:relative;
+  }
+  .foot-logo{position:relative;z-index:2;}
+  .foot-logo .tm{
+    font-family:'Playfair Display',serif;font-weight:900;font-size:38px;
+    letter-spacing:4px;color:var(--cream);
+  }
+  .foot-logo .tm span{color:var(--gold);}
+  .foot-logo .cs{
+    margin-top:6px;
+    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:6px;
+    color:var(--cream-dim);text-transform:uppercase;
+  }
+  footer .credit{
+    position:relative;z-index:2;margin-top:30px;
+    font-family:'Space Mono',monospace;font-size:10.5px;color:var(--cream-dim);opacity:0.6;
+  }
+  footer .credit a{border-bottom:1px dotted var(--hair);}
+
+  /* ---------- floating whatsapp ---------- */
+  .float-wa{
+    position:fixed;right:22px;bottom:22px;z-index:100;
+    width:58px;height:58px;border-radius:50%;
+    background:var(--ember);
+    border:1px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 20px rgba(0,0,0,0.6);
+    animation:pulse 2.8s ease-in-out infinite;
+  }
+  .float-wa svg{width:27px;height:27px;}
+  @keyframes pulse{
+    0%,100%{box-shadow:0 6px 20px rgba(0,0,0,0.6),0 0 0 0 rgba(122,31,28,0.55);}
+    50%{box-shadow:0 6px 20px rgba(0,0,0,0.6),0 0 0 12px rgba(122,31,28,0);}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-mark"><span>Tómate</span></div>
+    <nav>
+      <a href="#links">Enlaces</a>
+      <a href="#carta">La carta</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </div>
+</div>
+
+<section class="hero smoke">
+  <div class="grain"></div><div class="vignette"></div>
+  <span class="hero-badge">Villa María · Córdoba</span>
+  <div class="echo-title"><h1 data-text="TÓMATE">TÓMATE</h1></div>
+  <p class="sub">Cocktail spot — dedicados a la cultura joven</p>
+  <p class="loc">@tomate.cocktailspot · Reservas, take away y delivery</p>
+  <div class="hero-rule"></div>
+  <div class="stamp-row">
+    <div class="stamp">Reservas</div>
+    <div class="stamp">Take away</div>
+    <div class="stamp">Comprobantes</div>
+    <div class="stamp">Delivery</div>
+  </div>
+</section>
+
+<section class="links smoke" id="links">
+  <div class="grain"></div>
+  <div class="wrap">
+    <p class="section-eyebrow">Todo en un lugar</p>
+    <h2>Enlaces</h2>
+    <div class="link-grid">
+
+      <a class="link-btn" href="https://wa.me/5493534414745?text=Hola%20Tomate%20Spot!%20Quiero%20hacer%20una%20reserva" target="_blank" rel="noopener">
+        <div class="lb-left">
+          <div class="lb-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.2-1.77 1.24-.46.05-1.03.07-1.66-.1-.38-.11-.87-.28-1.5-.55-2.64-1.14-4.36-3.8-4.5-3.98-.13-.18-1.07-1.42-1.07-2.71s.68-1.93.92-2.19c.24-.26.53-.32.7-.32h.5c.16 0 .38-.06.59.45.22.53.75 1.83.82 1.97.07.13.11.29.02.47-.09.18-.13.29-.26.44-.13.16-.28.35-.4.47-.13.13-.27.27-.12.53.16.26.71 1.18 1.53 1.91 1.05.94 1.94 1.23 2.2 1.37.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.35-.22.59-.13.24.09 1.53.72 1.79.85.26.13.44.2.5.31.07.11.07.63-.15 1.24z"/></svg>
+          </div>
+          <div class="lb-text">
+            <b>Reservas y take away</b>
+            <span>Consultas y comprobantes por WhatsApp</span>
+          </div>
+        </div>
+        <span class="lb-arrow">→</span>
+      </a>
+
+      <a class="link-btn" href="#carta">
+        <div class="lb-left">
+          <div class="lb-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19.5V4.5A2.5 2.5 0 016.5 2H20v20H6.5a2.5 2.5 0 010-5H20"/></svg>
+          </div>
+          <div class="lb-text">
+            <b>Para cenar</b>
+            <span>Mirá la carta completa acá abajo</span>
+          </div>
+        </div>
+        <span class="lb-arrow">→</span>
+      </a>
+
+      <a class="link-btn" href="#carta">
+        <div class="lb-left">
+          <div class="lb-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2h8l-1 6h2l-3 14-1-9H9l-1 9-3-14h2z"/></svg>
+          </div>
+          <div class="lb-text">
+            <b>Para beber</b>
+            <span>Tragos, cervezas y sin alcohol</span>
+          </div>
+        </div>
+        <span class="lb-arrow">→</span>
+      </a>
+
+      <a class="link-btn" href="https://maps.app.goo.gl/tbBgVTrfBfKdpEBP8" target="_blank" rel="noopener">
+        <div class="lb-left">
+          <div class="lb-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s7-7.1 7-12A7 7 0 105 10c0 4.9 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          </div>
+          <div class="lb-text">
+            <b>Dejanos tu opinión</b>
+            <span>Reseñas en Google Maps</span>
+          </div>
+        </div>
+        <span class="lb-arrow">→</span>
+      </a>
+
+      <a class="link-btn" href="https://www.instagram.com/tomate.cocktailspot/" target="_blank" rel="noopener">
+        <div class="lb-left">
+          <div class="lb-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+          </div>
+          <div class="lb-text">
+            <b>Seguinos en Instagram</b>
+            <span>@tomate.cocktailspot</span>
+          </div>
+        </div>
+        <span class="lb-arrow">→</span>
+      </a>
+
+    </div>
+
+    <div class="ornament"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+  </div>
+</section>
+
+<section class="carta smoke" id="carta">
+  <div class="grain"></div><div class="vignette"></div>
+  <div class="wrap carta-head">
+    <h2 data-text="LA CARTA">LA CARTA</h2>
+    <p>Precios en pesos argentinos · sujetos a modificación</p>
+  </div>
+
+  <div class="wrap">
+
+    <div class="menu-block">
+      <h3>Tapeo</h3>
+
+      <div class="menu-item">
+        <span class="mi-name">Trends de pollo</span>
+        <span class="mi-desc">Piezas de pollo frito acompañado con papas fritas y salsa TMT</span>
+        <span class="mi-price">$17800</span>
+      </div>
+
+      <div class="menu-item">
+        <span class="mi-name">Rabas a la romana</span>
+        <span class="mi-desc">Acompañadas de papas fritas, dip de salsa TMT y lactonesa con provenzal</span>
+        <span class="mi-price">$20500</span>
+      </div>
+
+      <div class="menu-item">
+        <span class="mi-name">Bastoncitos de muzzarella</span>
+        <span class="mi-desc">Cinco unidades de bastones de muzzarella rebozados y fritos, con dip de salsa TMT y lactonesa</span>
+        <span class="mi-price">$16500</span>
+      </div>
+
+      <div class="menu-item">
+        <span class="mi-name">Papas clásicas</span>
+        <span class="mi-desc">Papas fritas con dip de salsa TMT y lactonesa</span>
+        <span class="mi-price">$12800</span>
+      </div>
+
+      <div class="menu-item">
+        <span class="mi-name">Papas TMT</span>
+        <span class="mi-desc">Papas fritas con cheddar, lactonesa con provenzal y topping de albondiguitas de bondiola braseada</span>
+        <span class="mi-price">$16500</span>
+      </div>
+
+      <div class="menu-item">
+        <span class="mi-name">Papas al puerro</span>
+        <span class="mi-desc">Papas fritas con salsa de puerro y crema</span>
+        <span class="mi-price">$16100</span>
+      </div>
+
+      <div class="menu-item">
+        <span class="mi-name">Nachos con guacamole</span>
+        <span class="mi-desc">Nachos con paltonesa, tomates y pimientos en cubos con topping de cebolla encurtida</span>
+        <span class="mi-price">$15500</span>
+      </div>
+
+      <div class="menu-item">
+        <span class="mi-name">Nachos con cheddar</span>
+        <span class="mi-desc">Nachos con cheddar, dados de lomo y verdeo</span>
+        <span class="mi-price">$15900</span>
+      </div>
+    </div>
+
+    <div class="ornament"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+
+    <div class="menu-block">
+      <h3>Burgers</h3>
+      <div class="menu-item">
+        <span class="mi-name">Clásica Spot</span>
+        <span class="mi-desc">Carne 150g, cheddar, lechuga, tomate y salsa de la casa</span>
+        <span class="mi-price">$8900</span>
+      </div>
+      <div class="menu-item">
+        <span class="mi-name">Doble bacon</span>
+        <span class="mi-desc">Doble carne, panceta crocante y BBQ</span>
+        <span class="mi-price">$11500</span>
+      </div>
+      <div class="menu-item">
+        <span class="mi-name">Veggie</span>
+        <span class="mi-desc">Medallón de garbanzos, rúcula y alioli</span>
+        <span class="mi-price">$8500</span>
+      </div>
+    </div>
+
+    <div class="ornament"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+
+    <div class="menu-block">
+      <h3>Lomitos y sandwiches</h3>
+      <div class="menu-item">
+        <span class="mi-name">Lomito completo</span>
+        <span class="mi-desc">Jamón, queso, huevo, lechuga y tomate</span>
+        <span class="mi-price">$9800</span>
+      </div>
+      <div class="menu-item">
+        <span class="mi-name">Choripán Spot</span>
+        <span class="mi-desc">Chorizo casero y chimichurri</span>
+        <span class="mi-price">$5900</span>
+      </div>
+      <div class="menu-item">
+        <span class="mi-name">Pan de pita pollo</span>
+        <span class="mi-desc">Pollo grillado, vegetales y salsa yogur</span>
+        <span class="mi-price">$8200</span>
+      </div>
+    </div>
+
+    <div class="ornament"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+
+    <div class="menu-block">
+      <h3>Pizzas</h3>
+      <div class="menu-item">
+        <span class="mi-name">Muzzarella</span>
+        <span class="mi-desc">Individual, masa a la piedra</span>
+        <span class="mi-price">$6500</span>
+      </div>
+      <div class="menu-item">
+        <span class="mi-name">Napolitana</span>
+        <span class="mi-desc">Tomate, ajo y jamón crudo</span>
+        <span class="mi-price">$7800</span>
+      </div>
+      <div class="menu-item">
+        <span class="mi-name">Spot especial</span>
+        <span class="mi-desc">Rúcula, cherrys y parmesano</span>
+        <span class="mi-price">$8300</span>
+      </div>
+    </div>
+
+    <div class="ornament"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+
+    <div class="menu-block">
+      <h3>Para beber</h3>
+      <div class="menu-item">
+        <span class="mi-name">Cerveza artesanal</span>
+        <span class="mi-desc">Rubia / roja / IPA — pinta</span>
+        <span class="mi-price">$4200</span>
+      </div>
+      <div class="menu-item">
+        <span class="mi-name">Trago Tómate</span>
+        <span class="mi-desc">Fernet, gaseosa y toque cítrico</span>
+        <span class="mi-price">$5500</span>
+      </div>
+      <div class="menu-item">
+        <span class="mi-name">Aperol Spritz</span>
+        <span class="mi-desc">Clásico italiano</span>
+        <span class="mi-price">$6200</span>
+      </div>
+      <div class="menu-item">
+        <span class="mi-name">Limonada / jugo</span>
+        <span class="mi-desc">Frutas de estación</span>
+        <span class="mi-price">$3400</span>
+      </div>
+    </div>
+
+    <div class="ornament"><div class="line"></div><div class="dot"></div><div class="line"></div></div>
+
+    <div class="menu-block">
+      <h3>Postres</h3>
+      <div class="menu-item">
+        <span class="mi-name">Brownie con helado</span>
+        <span class="mi-desc">Con nueces y salsa de chocolate</span>
+        <span class="mi-price">$5800</span>
+      </div>
+      <div class="menu-item">
+        <span class="mi-name">Flan casero</span>
+        <span class="mi-desc">Con dulce de leche y crema</span>
+        <span class="mi-price">$4500</span>
+      </div>
+    </div>
+
+    <p class="menu-note">¿Consultas sobre la carta o pedidos grandes? Escribinos por WhatsApp, te respondemos al toque.</p>
+  </div>
+</section>
+
+<section class="contact smoke" id="contacto">
+  <div class="grain"></div><div class="vignette"></div>
+  <h2>Reservá tu mesa</h2>
+  <p>Take away, delivery, comprobantes y reservas — todo por WhatsApp, directo con nosotros.</p>
+  <a class="wa-cta" href="https://wa.me/5493534414745?text=Hola%20Tomate%20Spot!%20Quiero%20hacer%20una%20consulta" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.2-1.77 1.24-.46.05-1.03.07-1.66-.1-.38-.11-.87-.28-1.5-.55-2.64-1.14-4.36-3.8-4.5-3.98-.13-.18-1.07-1.42-1.07-2.71s.68-1.93.92-2.19c.24-.26.53-.32.7-.32h.5c.16 0 .38-.06.59.45.22.53.75 1.83.82 1.97.07.13.11.29.02.47-.09.18-.13.29-.26.44-.13.16-.28.35-.4.47-.13.13-.27.27-.12.53.16.26.71 1.18 1.53 1.91 1.05.94 1.94 1.23 2.2 1.37.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.35-.22.59-.13.24.09 1.53.72 1.79.85.26.13.44.2.5.31.07.11.07.63-.15 1.24z"/></svg>
+    Escribinos al WhatsApp
+  </a>
+  <p class="subinfo">+54 9 353 441-4745 · VILLA MARÍA, CÓRDOBA</p>
+</section>
+
+<footer class="smoke">
+  <div class="grain"></div>
+  <div class="foot-logo">
+    <div class="tm">TÓM<span>A</span>TE</div>
+    <div class="cs">Cocktail spot</div>
+  </div>
+  <p class="credit">© 2026 · <a href="https://www.instagram.com/tomate.cocktailspot/" target="_blank" rel="noopener">Instagram @tomate.cocktailspot</a></p>
+</footer>
+
+<a class="float-wa" href="https://wa.me/5493534414745?text=Hola%20Tomate%20Spot!" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="#F4EDE1"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.2-1.77 1.24-.46.05-1.03.07-1.66-.1-.38-.11-.87-.28-1.5-.55-2.64-1.14-4.36-3.8-4.5-3.98-.13-.18-1.07-1.42-1.07-2.71s.68-1.93.92-2.19c.24-.26.53-.32.7-.32h.5c.16 0 .38-.06.59.45.22.53.75 1.83.82 1.97.07.13.11.29.02.47-.09.18-.13.29-.26.44-.13.16-.28.35-.4.47-.13.13-.27.27-.12.53.16.26.71 1.18 1.53 1.91 1.05.94 1.94 1.23 2.2 1.37.26.13.41.11.56-.07.16-.18.66-.77.84-1.03.18-.26.35-.22.59-.13.24.09 1.53.72 1.79.85.26.13.44.2.5.31.07.11.07.63-.15 1.24z"/></svg>
+</a>
+
+</body>
+</html>
